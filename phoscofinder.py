@@ -43,7 +43,7 @@ pl3= re.compile(r'[^\W_ST](?=\w{2}(S|T)[^\W_P]{2}[S|T|E|D])')
 
 
 # Define array type and initialize array
-geneMotif = np.dtype([('gene', 'a11'),('match','a7')])
+geneMotif = np.dtype([('gene', 'a11'),('start', 'i'),('stop', 'i'),('match','a7')])
 geneOnly = np.dtype([('gene', 'a11')])
 
 foundShort = np.empty([0,2],dtype=geneMotif)
@@ -58,55 +58,60 @@ for line in sequences:
 	totalReceptors +=1
 	foundMotif = 0
 	geneName = re.sub(r'\>', '',line.split()[0])
-	sequence = line.split()[1]
+	sequence = line.split()[3]
 	print geneName
-
+	if int(line.split()[1]) != 1:
+		offset = int(line.split()[1])
+	else:
+		offset = 1 + 1
 	for match in re.finditer(regexShort,sequence):
 		partialSeq = sequence[(match.start()):(match.end()+5)]
-		foundShort = np.append(foundShort, np.array([(geneName, partialSeq)], dtype=geneMotif))
-		print "%11s %1s %4d %4d %17s" % (geneName,"S",match.start()+1,match.end()+6,partialSeq)
+		tmpStart = int(match.start())+offset
+		tmpEnd = match.end()+offset+4
+		foundShort = np.append(foundShort, np.array([(geneName,match.start()+offset,match.end()+offset+4, partialSeq)], dtype=geneMotif))
+		print "%11s %1s %4d %4d %17s" % (geneName,"S",tmpStart,tmpEnd,partialSeq)
 		foundMotif +=1
 
 	for match in re.finditer(regexLong,sequence):
 		partialSeq = sequence[(match.start()):(match.end()+6)]
-		foundLong = np.append(foundLong, np.array([(geneName, partialSeq)], dtype=geneMotif))
-		print "%11s %1s %4d %4d %17s" % (geneName,"L",match.start()+1,match.end()+7,partialSeq)
+		foundLong = np.append(foundLong, np.array([(geneName,match.start()+offset,match.end()+offset+5, partialSeq)], dtype=geneMotif))
+		print "%11s %1s %4d %4d %17s" % (geneName,"L",match.start()+offset,match.end()+offset+5,partialSeq)
 		foundMotif +=1
 
 	for match in re.finditer(ps1,sequence):
 		partialSeq = sequence[(match.start()):(match.end()+5)]
-		foundPartial = np.append(foundPartial, np.array([(geneName, partialSeq)], dtype=geneMotif))
-		print "%11s %1s %4d %4d %17s" % (geneName,"PS",match.start()+1,match.end()+6,partialSeq)
+		foundPartial = np.append(foundPartial, np.array([(geneName,match.start()+offset,match.end()+offset+4, partialSeq)], dtype=geneMotif))
+		print "%11s %1s %4d %4d %17s" % (geneName,"PS",match.start()+offset,match.end()+offset+4,partialSeq)
 		foundMotif +=1
 
 	for match in re.finditer(ps2,sequence):
 		partialSeq = sequence[(match.start()):(match.end()+5)]
-		foundPartial = np.append(foundPartial, np.array([(geneName, partialSeq)], dtype=geneMotif))
-		print "%11s %1s %4d %4d %17s" % (geneName,"PS",match.start()+1,match.end()+6,partialSeq)
+		foundPartial = np.append(foundPartial, np.array([(geneName,match.start()+offset,match.end()+offset+4, partialSeq)], dtype=geneMotif))
+		print "%11s %1s %4d %4d %17s" % (geneName,"PS",match.start()+offset,match.end()+offset+4,partialSeq)
 		foundMotif +=1
 
 	for match in re.finditer(ps3,sequence):
 		partialSeq = sequence[(match.start()):(match.end()+5)]
-		foundPartial = np.append(foundPartial, np.array([(geneName, partialSeq)], dtype=geneMotif))
-		print "%11s %1s %4d %4d %17s" % (geneName,"PS",match.start()+1,match.end()+6,partialSeq)
+		foundPartial = np.append(foundPartial, np.array([(geneName,match.start()+offset,match.end()+offset+4,partialSeq)], dtype=geneMotif))
+		print "%11s %1s %4d %4d %17s" % (geneName,"PS",match.start()+offset,match.end()+offset+4,partialSeq)
 		foundMotif +=1
 
 	for match in re.finditer(pl1,sequence):
 		partialSeq = sequence[(match.start()):(match.end()+6)]
-		foundPartial = np.append(foundPartial, np.array([(geneName, partialSeq)], dtype=geneMotif))
-		print "%11s %1s %4d %4d %17s" % (geneName,"PL",match.start()+1,match.end()+7,partialSeq)
+		foundPartial = np.append(foundPartial, np.array([(geneName,match.start()+offset,match.end()+offset+5, partialSeq)], dtype=geneMotif))
+		print "%11s %1s %4d %4d %17s" % (geneName,"PL",match.start()+offset,match.end()+offset+5,partialSeq)
 		foundMotif +=1
 
 	for match in re.finditer(pl2,sequence):
 		partialSeq = sequence[(match.start()):(match.end()+6)]
-		foundPartial = np.append(foundPartial, np.array([(geneName, partialSeq)], dtype=geneMotif))
-		print "%11s %1s %4d %4d %17s" % (geneName,"PL",match.start()+1,match.end()+7,partialSeq)
+		foundPartial = np.append(foundPartial, np.array([(geneName,match.start()+offset,match.end()+offset+5, partialSeq)], dtype=geneMotif))
+		print "%11s %1s %4d %4d %17s" % (geneName,"PL",match.start()+offset,match.end()+offset+5,partialSeq)
 		foundMotif +=1
 
 	for match in re.finditer(pl3,sequence):
 		partialSeq = sequence[(match.start()):(match.end()+6)]
-		foundPartial = np.append(foundPartial, np.array([(geneName, partialSeq)], dtype=geneMotif))
-		print "%11s %1s %4d %4d %17s" % (geneName,"PL",match.start()+1,match.end()+7,partialSeq)
+		foundPartial = np.append(foundPartial, np.array([(geneName,match.start()+offset,match.end()+offset+5, partialSeq)], dtype=geneMotif))
+		print "%11s %1s %4d %4d %17s" % (geneName,"PL",match.start()+offset,match.end()+offset+5,partialSeq)
 		foundMotif +=1
 
 	if (foundMotif == 0):
@@ -134,16 +139,11 @@ fileNameNone = folder + inClass + ".none.csv"
 fileNamePartial = folder + inClass + ".partial.csv"
 
 
-np.savetxt(fileNameShort,foundShort, delimiter=',',fmt=('%11s', '%16s'), header='GeneID,Sequence',comments='')
-np.savetxt(fileNameLong,foundLong, delimiter=',',fmt=('%11s', '%16s'), header='GeneID,Sequence',comments='')
-np.savetxt(fileNamePartial,foundPartial, delimiter=',',fmt=('%11s', '%16s'), header='GeneID,Sequence',comments='')
+np.savetxt(fileNameShort,foundShort, delimiter=',',fmt=('%11s ',' %5i',' %5i', ' %16s'), header='GeneID,Sequence',comments='')
+np.savetxt(fileNameLong,foundLong, delimiter=',',fmt=('%11s ',' %5i',' %5i', ' %16s'), header='GeneID,Sequence',comments='')
+np.savetxt(fileNamePartial,foundPartial, delimiter=',',fmt=('%11s ',' %5i',' %5i', ' %16s'), header='GeneID,Sequence',comments='')
 np.savetxt(fileNameInter,interData, delimiter=',',fmt=('%11s'), header='GeneID',comments='')
 np.savetxt(fileNameNone,foundNone, delimiter=',',fmt=('%11s'), header='GeneID',comments='')
-
-#           fmt=('%s', '%2u', '%2.1f'),
-#           header='name, age, grades',
-#           comments='',
-#           )
 
 shortCount = Counter(foundShort['gene'])
 longCount = Counter(foundLong['gene'])

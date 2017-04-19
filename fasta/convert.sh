@@ -5,4 +5,7 @@
 # Usage ex: bash process.sh classA.fasta classA.fasta.oneline
 ##############################################
 
-awk '/>/{gene=$1; getline; print gene, $1}' $1 > $2
+sed 's/\-//g' $1 > tmp
+awk '/>/{gene=$1; getline; if(length($1) > 0){print gene, " 1",length($1),$1}}' tmp > $2
+sed -i 's/>//' $2
+rm tmp
