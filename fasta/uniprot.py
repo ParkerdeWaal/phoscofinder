@@ -1,3 +1,11 @@
+##############################################
+# Zhou et al. Cell 2017 -- Parker de Waal 2017
+#
+# Convert uniprot .txt files to phoscofinder.py compatible .fasta files
+#
+# Usage ex: python uniprot.py uniprot-gpcrs.txt > uniprot-gpcrs.fasta
+##############################################
+
 import sys
 import re
 import os

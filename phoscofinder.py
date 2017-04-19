@@ -6,9 +6,6 @@
 # 
 # Usage ex: python phoscofinder.py A fasta/classA.fasta.online
 #                               (class)  
-#
-# Due to the output of the GPCRdb, residue numbering for each C-tail will begin at 1
-# 
 ##################################################
 
 import sys,os
