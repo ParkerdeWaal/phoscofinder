@@ -6,6 +6,9 @@
 # 
 # Usage ex: python phoscofinder.py A fasta/classA.fasta.online
 #                               (class)  
+#
+#
+#
 ##################################################
 
 import sys,os
@@ -42,6 +45,7 @@ pl3= re.compile(r'[^\W_ST](?=\w{2}(S|T)[^\W_P]{2}[S|T|E|D])')
 # Define array type and initialize array
 geneMotif = np.dtype([('gene', 'a11'),('start', 'i'),('stop', 'i'),('match','a7')])
 geneOnly = np.dtype([('gene', 'a11')])
+countArr = np.dtype([('gene', 'a11'),('count', 'i')])
 
 foundShort = np.empty([0,2],dtype=geneMotif)
 foundLong = np.empty([0,2],dtype=geneMotif)
@@ -135,7 +139,6 @@ fileNameInter = folder + inClass + ".inter.csv"
 fileNameNone = folder + inClass + ".none.csv"
 fileNamePartial = folder + inClass + ".partial.csv"
 
-
 np.savetxt(fileNameShort,foundShort, delimiter=',',fmt=('%11s ',' %5i',' %5i', ' %16s'), header='GeneID,Sequence',comments='')
 np.savetxt(fileNameLong,foundLong, delimiter=',',fmt=('%11s ',' %5i',' %5i', ' %16s'), header='GeneID,Sequence',comments='')
 np.savetxt(fileNamePartial,foundPartial, delimiter=',',fmt=('%11s ',' %5i',' %5i', ' %16s'), header='GeneID,Sequence',comments='')
@@ -146,32 +149,13 @@ shortCount = Counter(foundShort['gene'])
 longCount = Counter(foundLong['gene'])
 shortlongCount = Counter(foundShort['gene']) + Counter(foundLong['gene'])
 partialCount = Counter(foundPartial['gene'])
-import csv
 
-with open(folder + 'shortCount.csv','w') as csvfile:
-    fieldnames=['gene','count']
-    writer=csv.writer(csvfile)
-    writer.writerow(fieldnames)
-    for key, value in shortCount.items():
-        writer.writerow((key , value))
+shortCount = np.array(sorted(shortCount.items(), key=lambda pair: pair[1], reverse=True), dtype=countArr)
+longCount = np.array(sorted(longCount.items(), key=lambda pair: pair[1], reverse=True),dtype=countArr)
+shortlongCount = np.array(sorted(shortlongCount.items(), key=lambda pair: pair[1], reverse=True),dtype=countArr)
+partialCount = np.array(sorted(partialCount.items(), key=lambda pair: pair[1], reverse=True),dtype=countArr)
 
-with open(folder + 'longCount.csv','w') as csvfile:
-    fieldnames=['gene','count']
-    writer=csv.writer(csvfile)
-    writer.writerow(fieldnames)
-    for key, value in longCount.items():
-       	writer.writerow((key , value))
-
-with open(folder + 'partialCount.csv','w') as csvfile:
-    fieldnames=['gene','count']
-    writer=csv.writer(csvfile)
-    writer.writerow(fieldnames)
-    for key, value in partialCount.items():
-       	writer.writerow((key , value))
-
-with open(folder + 'shortlongCount.csv','w') as csvfile:
-    fieldnames=['gene','count']
-    writer=csv.writer(csvfile)
-    writer.writerow(fieldnames)
-    for key, value in shortlongCount.items():
-       	writer.writerow((key , value))
+np.savetxt(folder + inClass + ".shortCount.csv",shortCount, delimiter=',',fmt=('%11s','%5i'), header='GeneID,count',comments='')
+np.savetxt(folder + inClass + ".longCount.csv",longCount, delimiter=',',fmt=('%11s','%5i'), header='GeneID,count',comments='')
+np.savetxt(folder + inClass + ".shortlongCount.csv",shortlongCount, delimiter=',',fmt=('%11s','%5i'), header='GeneID,count',comments='')
+np.savetxt(folder + inClass + ".partialCount.csv",partialCount, delimiter=',',fmt=('%11s','%5i'), header='GeneID,count',comments='')
