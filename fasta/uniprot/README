@@ -1,0 +1,11 @@
+Verified human GPCRs search string:
+http://www.uniprot.org/uniprot/?query=gpcr&fil=organism%3A%22Homo+sapiens+%28Human%29+%5B9606%5D%22+AND+reviewed%3Ayes&sort=score
+
+```python uniprot.py GPCR uniprot-gpcrs.txt > uniprot-gpcrs.txt.fasta```
+
+
+Verified, human non-GPCR membrane proteins obtained from uniprot search string:
+http://www.uniprot.org/uniprot/?query=annotation%3A%28type%3Atopo_dom+Cytoplasmic%29+AND+annotation%3A%28type%3Atransmem%29+NOT+go%3A%22g+protein%22+AND+reviewed%3Ayes+AND+organism%3A%22Homo+sapiens+%28Human%29+%5B9606%5D%22+NOT+keyword%3A%22G-protein+coupled+receptor+%5BKW-0297%5D%22&sort=score
+
+```python uniprot.py non uniprot-non-gpcrs.txt > uniprot-non-gpcrs.txt.fasta```
+

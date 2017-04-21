@@ -1,2 +1,2 @@
-# unprocessed non-gpcr membrane protein .txt ignored for size
-/fasta/uniprot-*.txt
+# unprocessed uniprot .txt files are ignored for size reasons. Download strings can be found in README files
+./fasta/*/*.uniprot
