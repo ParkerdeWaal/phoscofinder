@@ -1,5 +1,8 @@
 # unprocessed uniprot .txt files are ignored for size reasons. Download strings can be found in README files
 *.uniprot
 
-# Ignore processed folders
+# Ignore processed folders and testing folders
 2017*/
+*.log
+relationship/
+classify/

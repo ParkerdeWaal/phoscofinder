@@ -163,5 +163,5 @@ fileNameNone = folder + inClass + ".none.csv"
 np.savetxt(fileData,joined, delimiter=',',fmt=('%11s ',' %5i',' %5i',' %5i'), header='uniprotID, shortCodes,longCodes, partialCodes,',comments='')
 fo =  np.unique(np.append(foundShort['gene'],foundLong['gene']))
 fo =  np.unique(np.append(foundPartial['gene'],fo))
-#np.savetxt(fileNameFound,fo,delimiter=',',fmt=('%11s'), header='uniprotID')
-#np.savetxt(fileNameNone,foundNone,delimiter=',',fmt=('%11s'), header='uniprotID')
+np.savetxt(fileNameFound,fo,delimiter=',',fmt=('%11s'), header='uniprotID')
+np.savetxt(fileNameNone,foundNone,delimiter=',',fmt=('%11s'), header='uniprotID')

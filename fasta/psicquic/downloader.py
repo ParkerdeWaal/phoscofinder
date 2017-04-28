@@ -1,9 +1,7 @@
 ##############################################
 # Zhou et al. Cell 2017 -- Parker de Waal 2017
 #
-# Convert uniprot .txt files to phoscofinder.py compatible sequence files
-#
-# Usage ex: python uniprot.py uniprot-gpcrs.txt > uniprot-gpcrs.fasta
+# Usage ex: python downloader.py ids
 ##############################################
 
 import sys
@@ -25,4 +23,4 @@ for id in ids:
 		html = response.read()
 		print html
 	except:
-		print "failed :", id
+		pass
