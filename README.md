@@ -13,10 +13,10 @@ python phoscofinder.py uniprot-GPCR-ctail fasta/uniprot/uniprot-gpcrs.fasta
 
 ## Supplied Datasets
 PhosCoFinder is provided with 3 sources of pre-formated data to scan: 
-1. GPCRdb Class divided C-Tail sequences
-2. UniProt
+1. [GPCRdb Class divided C-Tail sequences](/fasta/gpcrdb)
+2. [UniProt](/fasta/uniprot)
   * All annotated GPCR C-termianl tail sequences
   * All annotated GPCR ICL3 sequences
-3. Known bArr1/2 interactors from the Proteomics Standard Initiative Common QUery InterfaCe (PSICQUIC) 
+3. [Known bArr1/2 interactors from the Proteomics Standard Initiative Common QUery InterfaCe (PSICQUIC)](/fasta/psicquic) 
 
 Additional source links and instructions on how to format `phoscofinder` sequence files can be found within each databases respected folder.
