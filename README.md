@@ -8,7 +8,7 @@ python phoscofinder.py {search name} {sequence location}
 ```
 An example quicksearch of all known annotated GPCRs from uniprot can be launched with:
 ```
-python phoscofinder.py uniprot-GPCR-ctail fasta/uniprot/uniprot-gpcrs.fasta
+python phoscofinder.py uniprot-GPCR-ctail fasta/uniprot/uniprot-cTail-gpcrs.txt.fasta
 ```
 
 ## Supplied Datasets
