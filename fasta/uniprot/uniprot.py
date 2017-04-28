@@ -3,7 +3,7 @@
 #
 # Convert uniprot .txt files to phoscofinder.py compatible sequence files
 #
-# Usage ex: python uniprot.py Type(GPCR|non) uniprot-gpcrs.txt > uniprot-gpcrs.fasta
+# Usage ex: python uniprot.py Type(GPCR|non) location(cTail|ICL3) uniprot-gpcrs.txt > uniprot-gpcrs.fasta
 ##############################################
 
 import sys
@@ -12,7 +12,8 @@ import os
 import numpy as np
 
 type = str(sys.argv[1])
-inFile = sys.argv[2]
+loc = str(sys.argv[2])
+inFile = sys.argv[3]
 
 sequences = open(inFile, "r")
 
@@ -26,9 +27,14 @@ cytoRanges = np.empty([0,3],dtype=cytoFormat)
 
 
 def processCyto(ID,genesequence,cytoRanges):
+	global loc
 	if cytoRanges[-1][0] == "TOPO_DOM" and cytoRanges[-1][1] == "Cytoplasmic." and "TRANSMEM" in cytoRanges['FT']:
-		begin = cytoRanges[-1][2]
-		end = cytoRanges[-1][3]
+		if loc == "cTail":
+			begin = cytoRanges[-1][2]
+			end = cytoRanges[-1][3]
+		elif loc == "ICL3":
+			begin = cytoRanges[-5][2]
+			end = cytoRanges[-5][3]
 		print ID,begin,end,sequence[begin-1:end]
 
 	
