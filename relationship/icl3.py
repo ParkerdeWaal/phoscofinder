@@ -8,10 +8,12 @@
 
 import sys
 import re
+import csv
 import os
 import numpy as np
 
 type = str(sys.argv[1])
+#matchFile = sys.argv[2]
 inFile = sys.argv[2]
 
 sequences = open(inFile, "r")
@@ -22,15 +24,17 @@ isGPCR = "non"
 
 
 cytoFormat = np.dtype([('FT','S8'),('FTT','S12'),('begin', 'i'),('end','i')])
+rangesFormat = np.dtype([('gene','S11'),('icl3', 'i'),('ctail','i')])
 cytoRanges = np.empty([0,3],dtype=cytoFormat)
-
+sizeRanges = np.empty([0,3],dtype=rangesFormat)
 
 def processCyto(ID,genesequence,cytoRanges):
-	if cytoRanges[-1][0] == "TOPO_DOM" and cytoRanges[-1][1] == "Cytoplasmic." and "TRANSMEM" in cytoRanges['FT'] and "_HUMAN" in ID:
-		begin = cytoRanges[-1][2]
-		end = cytoRanges[-1][3]
-		print ID,begin,end,sequence[begin-1:end]
-
+	global sizeRanges
+	if cytoRanges[-1][0] == "TOPO_DOM" and cytoRanges[-1][1] == "Cytoplasmic." and "TRANSMEM" in cytoRanges['FT']:
+		ICL3l = cytoRanges[-5][3] - cytoRanges[-5][2] +1
+		CtailL = cytoRanges[-1][3] - cytoRanges[-1][2] +1
+		print ID,ICL3l,CtailL
+		sizeRanges = np.append(sizeRanges, np.array([(str(ID),ICL3l,CtailL)], dtype=rangesFormat))
 	
 for line in sequences:
 	# determine GPCR status
@@ -44,7 +48,7 @@ for line in sequences:
         if line[0:2] == "//":
                 seqIn = 0
                 idFound = 0
-		if cytoRanges.size > 0 and isGPCR == type:
+		if cytoRanges.size > 0 and isGPCR == type: # and ID in lines:
 			processCyto(ID,sequence,cytoRanges)
 		isGPCR = "non"
 		cytoRanges = np.empty([0,3],dtype=cytoFormat)

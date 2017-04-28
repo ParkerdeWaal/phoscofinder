@@ -26,10 +26,13 @@ cytoRanges = np.empty([0,3],dtype=cytoFormat)
 
 
 def processCyto(ID,genesequence,cytoRanges):
-	if cytoRanges[-1][0] == "TOPO_DOM" and cytoRanges[-1][1] == "Cytoplasmic." and "TRANSMEM" in cytoRanges['FT'] and "_HUMAN" in ID:
+	if cytoRanges[-1][0] == "TOPO_DOM" and cytoRanges[-1][1] == "Cytoplasmic." and "TRANSMEM" in cytoRanges['FT']:
+		begin = cytoRanges[-5][2]
+		end = cytoRanges[-5][3]
+		print ID,"ICL3",begin,end,sequence[begin-1:end]
 		begin = cytoRanges[-1][2]
 		end = cytoRanges[-1][3]
-		print ID,begin,end,sequence[begin-1:end]
+		print ID,"Cyto",begin,end,sequence[begin-1:end]
 
 	
 for line in sequences:

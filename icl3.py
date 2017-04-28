@@ -60,7 +60,7 @@ for line in sequences:
 	totalReceptors +=1
 	foundMotif = 0
 	geneName = re.sub(r'\>', '',line.split()[0])
-	sequence = line.split()[3][10:] #ignore first 10 resdiues as they MAY be in H8
+	sequence = line.split()[3]
 	print geneName
 	if int(line.split()[1]) != 1:
 		offset = int(line.split()[1])
@@ -156,12 +156,8 @@ for x in range(0,joined.size):
                 joined['count'][x] = 0
 
 fileData = folder + inClass + ".codes.csv"
-fileNameFound = folder + inClass + ".found.csv"
 fileNameNone = folder + inClass + ".none.csv"
  
 
 np.savetxt(fileData,joined, delimiter=',',fmt=('%11s ',' %5i',' %5i',' %5i'), header='uniprotID, shortCodes,longCodes, partialCodes,',comments='')
-fo =  np.unique(np.append(foundShort['gene'],foundLong['gene']))
-fo =  np.unique(np.append(foundPartial['gene'],fo))
-#np.savetxt(fileNameFound,fo,delimiter=',',fmt=('%11s'), header='uniprotID')
-#np.savetxt(fileNameNone,foundNone,delimiter=',',fmt=('%11s'), header='uniprotID')
+

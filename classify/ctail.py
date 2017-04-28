@@ -8,11 +8,14 @@
 
 import sys
 import re
+import csv
+import pickle
 import os
 import numpy as np
 
 type = str(sys.argv[1])
-inFile = sys.argv[2]
+matchFile = sys.argv[2]
+inFile = sys.argv[3]
 
 sequences = open(inFile, "r")
 
@@ -22,11 +25,19 @@ isGPCR = "non"
 
 
 cytoFormat = np.dtype([('FT','S8'),('FTT','S12'),('begin', 'i'),('end','i')])
+rangesFormat = np.dtype([('gene','S11'),('icl3', 'i'),('ctail','i')])
 cytoRanges = np.empty([0,3],dtype=cytoFormat)
+sizeRanges = np.empty([0,3],dtype=rangesFormat)
+
+
+
+with open (matchFile, 'rb') as fp:
+    matchList = pickle.load(fp)
 
 
 def processCyto(ID,genesequence,cytoRanges):
-	if cytoRanges[-1][0] == "TOPO_DOM" and cytoRanges[-1][1] == "Cytoplasmic." and "TRANSMEM" in cytoRanges['FT'] and "_HUMAN" in ID:
+	global sizeRanges
+	if cytoRanges[-1][0] == "TOPO_DOM" and cytoRanges[-1][1] == "Cytoplasmic." and "TRANSMEM" in cytoRanges['FT']:
 		begin = cytoRanges[-1][2]
 		end = cytoRanges[-1][3]
 		print ID,begin,end,sequence[begin-1:end]
@@ -44,7 +55,7 @@ for line in sequences:
         if line[0:2] == "//":
                 seqIn = 0
                 idFound = 0
-		if cytoRanges.size > 0 and isGPCR == type:
+		if cytoRanges.size > 0 and isGPCR == type and ID in matchList:
 			processCyto(ID,sequence,cytoRanges)
 		isGPCR = "non"
 		cytoRanges = np.empty([0,3],dtype=cytoFormat)
