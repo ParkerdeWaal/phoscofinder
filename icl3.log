@@ -1,3 +1,0 @@
-close failed in file object destructor:
-sys.excepthook is missing
-lost sys.stderr
