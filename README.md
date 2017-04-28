@@ -1,5 +1,5 @@
 # PhosCoFinder
-A python based tool, paired with http://tools.vai.org/phoscofinder/, to rapidly identify potential phosphorylation codes for arrestin recruitment. The accompanying manuscript, Structural Identification of Phosphorylation Codes ofr Arrestin Recruitment by G protein-Coupled Receptors (Zhou et al., 2017), can be found at TBD.
+A python based tool, paired with http://tools.vai.org/phoscofinder/, to rapidly identify potential phosphorylation codes for arrestin recruitment. The accompanying manuscript, Structural Identification of Phosphorylation Codes for Arrestin Recruitment by G protein-Coupled Receptors (Zhou et al., 2017), can be found at TBD.
 
 ## Scanning Sequences
 PhosCoFinder.py is launched with the following arguments:
