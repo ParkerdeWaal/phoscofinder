@@ -12,7 +12,6 @@ To extract ICL3 and C-tail sequences:
 ```
 python uniprot.py GPCR ICL3 uniprot-gpcrs.txt > uniprot-ICL3-gpcrs.txt.fasta
 python uniprot.py GPCR cTail uniprot-gpcrs.txt > uniprot-cTail-gpcrs.txt.fasta
-
 ```
 
 Non-GPCR membrane proteins can be extracted similary:
